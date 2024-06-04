@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
@@ -13,7 +14,7 @@ const SignInForm = () => {
       </div>
       <form>
         <div className="grid gap-2">
-            {/* email */}
+          {/*==============email==============*/}
           <div className="mb-3">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -23,8 +24,8 @@ const SignInForm = () => {
               autoComplete="email"
             />
           </div>
-            {/* password */}
-            <div className="mb-3">
+          {/*==============password==============*/}
+          <div className="mb-3">
             <Label htmlFor="email">Contaseña</Label>
             <Input
               id="password"
@@ -34,11 +35,27 @@ const SignInForm = () => {
             />
           </div>
           <Link
-          href="/forgot-password"
-          className="underline text-muted-foreground underline-offset-4 hover:text-primary mb-6 text-sm text-end"
-          >¿Olvidaste tu contraseña?</Link>
+            href="/forgot-password"
+            className="underline text-muted-foreground underline-offset-4 hover:text-primary mb-6 text-sm text-end"
+          >
+            ¿Olvidaste tu contraseña?
+          </Link>
+
+          {/*==============Ingresar==============*/}
+          <Button type="submit">Ingresar</Button>
         </div>
       </form>
+
+      {/* ==============Registrarse============== */}
+      <p className="text-center text-sm text-muted-foreground">
+        ¿No tenes cuenta? {""}
+        <Link
+          href="/sign-up"
+          className="underline underline-offset-4 hover:text-primary"
+        >
+          Registrar
+        </Link>
+      </p>
     </>
   );
 };
