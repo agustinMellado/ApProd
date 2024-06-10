@@ -1,7 +1,9 @@
 import Logo from "@/components/logo";
 import { Metadata } from "next";
 import SignInForm from "./components/sign-in.form";
-
+import * as z from "zod";// importacion de toda la libreria.
+import {useForm} from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
 export const metadata: Metadata={
     title: "Sing IN",
     description:"Sing in to get access to your product list"
