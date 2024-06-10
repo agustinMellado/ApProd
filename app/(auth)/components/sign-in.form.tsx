@@ -2,8 +2,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-
+import * as z from "zod";// importacion de toda la libreria.
+import {useForm} from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
 const SignInForm = () => {
+
+  //==============form==============
+
+  //Definimos el esquema de validacion del formulario usando la biblioteca Zod
+  const formSchema = z.object({
+    email: z.string().email('El email no es valido.').min(1,{
+      message:'Este campo es obligatorio.'
+    }),
+    password: z.string().min(6,{
+      message:'La contraseña debe tener al menos 6 caracteres'
+    })
+  })
+  // Configuramos el formulario usando el hook useForm de React Hook Form
+  const form= useForm<z.infer<typeof formSchema>>({
+     // Usamos el esquema de validación de Zod como 'resolver' para manejar la validación del formulario.
+    resolver: zodResolver(formSchema),
+    defaultValues:{
+      email:'',
+      password:''
+    }
+  })
   return (
     <>
       <div className="text-center">
