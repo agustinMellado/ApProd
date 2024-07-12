@@ -25,9 +25,13 @@ const SignInForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: { email: '', password: '' }
   })
-
+  // Extraccion de datos
   const { register, handleSubmit, formState } = form
   const { errors } = formState
+   //==============Sign In==============
+   const onSubmit = (user:z.infer<typeof formSchema>)=> {
+    console.log(user)
+   }
   return (
     <>
       <div className="text-center">
@@ -36,12 +40,13 @@ const SignInForm = () => {
           Ingresa tu Email y contraseña
         </p>
       </div>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
           {/*==============email==============*/}
           <div className="mb-3">
             <Label htmlFor="email">Email</Label>
             <Input
+            {...register("email")}
               id="email"
               placeholder="email@example.com"
               type="email"
@@ -50,8 +55,9 @@ const SignInForm = () => {
           </div>
           {/*==============password==============*/}
           <div className="mb-3">
-            <Label htmlFor="email">Contaseña</Label>
+            <Label htmlFor="password">Contaseña</Label>
             <Input
+            {...register("password")}
               id="password"
               placeholder="Ingrese su contraseña"
               type="password"
