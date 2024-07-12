@@ -52,6 +52,7 @@ const SignInForm = () => {
               type="email"
               autoComplete="email"
             />
+            <p className="form-error">{errors.email?.message}</p>
           </div>
           {/*==============password==============*/}
           <div className="mb-3">
@@ -63,6 +64,7 @@ const SignInForm = () => {
               type="password"
               autoComplete="password"
             />
+            <p className="form-error">{errors.password?.message}</p>
           </div>
           <Link
             href="/forgot-password"
