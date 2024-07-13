@@ -9,10 +9,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "@/lib/firebase";
 import { useState } from "react";
-import { LoaderCircle} from "lucide-react";
+import { LoaderCircle } from "lucide-react";
+import toast from "react-hot-toast";
 const SignInForm = () => {
   //Estado de carga
-  const [isLoading,setisLoading] = useState<boolean>(false)
+  const [isLoading, setisLoading] = useState<boolean>(false)
   //==============form==============
 
   //Definimos el esquema de validacion del formulario usando la biblioteca Zod
@@ -32,20 +33,19 @@ const SignInForm = () => {
   // Extraccion de datos
   const { register, handleSubmit, formState } = form
   const { errors } = formState
-   //==============Sign In==============
-   const onSubmit = async (user:z.infer<typeof formSchema>)=> {
+  //==============Sign In==============
+  const onSubmit = async (user: z.infer<typeof formSchema>) => {
     console.log(user)
     setisLoading(true);
     try {
-      const res=await signIn (user);
+      const res = await signIn(user);
       console.log(res)
-    } catch (error) {
-      console.log(error);
-      
-    }finally{//espero la respuesta 
+    } catch (error: any) {
+      toast.error(error.message, { duration: 2500 })
+    } finally {//espero la respuesta 
       setisLoading(false)//saco la carga
     }
-   }
+  }
   return (
     <>
       <div className="text-center">
@@ -60,7 +60,7 @@ const SignInForm = () => {
           <div className="mb-3">
             <Label htmlFor="email">Email</Label>
             <Input
-            {...register("email")}
+              {...register("email")}
               id="email"
               placeholder="email@example.com"
               type="email"
@@ -72,7 +72,7 @@ const SignInForm = () => {
           <div className="mb-3">
             <Label htmlFor="password">Contaseña</Label>
             <Input
-            {...register("password")}
+              {...register("password")}
               id="password"
               placeholder="Ingrese su contraseña"
               type="password"
@@ -88,12 +88,12 @@ const SignInForm = () => {
           </Link>
 
           {/*==============Ingresar==============*/}
-          <Button 
-          type="submit" disabled={isLoading}>
-          {isLoading && (
-            <LoaderCircle className="mr-2 h-4 w-4 animate-spin"/>
-          )}
-          Ingresar
+          <Button
+            type="submit" disabled={isLoading}>
+            {isLoading && (
+              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Ingresar
           </Button>
         </div>
       </form>
