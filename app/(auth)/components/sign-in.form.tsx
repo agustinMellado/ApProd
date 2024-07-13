@@ -8,8 +8,11 @@ import * as z from "zod";// importacion de toda la libreria.
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "@/lib/firebase";
+import { useState } from "react";
+import { LoaderCircle} from "lucide-react";
 const SignInForm = () => {
-
+  //Estado de carga
+  const [isLoading,setisLoading] = useState<boolean>(false)
   //==============form==============
 
   //Definimos el esquema de validacion del formulario usando la biblioteca Zod
@@ -32,12 +35,15 @@ const SignInForm = () => {
    //==============Sign In==============
    const onSubmit = async (user:z.infer<typeof formSchema>)=> {
     console.log(user)
+    setisLoading(true);
     try {
       const res=await signIn (user);
       console.log(res)
     } catch (error) {
       console.log(error);
       
+    }finally{//espero la respuesta 
+      setisLoading(false)//saco la carga
     }
    }
   return (
@@ -82,7 +88,13 @@ const SignInForm = () => {
           </Link>
 
           {/*==============Ingresar==============*/}
-          <Button type="submit">Ingresar</Button>
+          <Button 
+          type="submit" disabled={isLoading}>
+          {isLoading && (
+            <LoaderCircle className="mr-2 h-4 w-4 animate-spin"/>
+          )}
+          Ingresar
+          </Button>
         </div>
       </form>
 
