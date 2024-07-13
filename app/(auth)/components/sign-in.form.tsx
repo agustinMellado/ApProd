@@ -7,6 +7,7 @@ import Link from "next/link";
 import * as z from "zod";// importacion de toda la libreria.
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "@/lib/firebase";
 const SignInForm = () => {
 
   //==============form==============
@@ -29,8 +30,15 @@ const SignInForm = () => {
   const { register, handleSubmit, formState } = form
   const { errors } = formState
    //==============Sign In==============
-   const onSubmit = (user:z.infer<typeof formSchema>)=> {
+   const onSubmit = async (user:z.infer<typeof formSchema>)=> {
     console.log(user)
+    try {
+      const res=await signIn (user);
+      console.log(res)
+    } catch (error) {
+      console.log(error);
+      
+    }
    }
   return (
     <>
