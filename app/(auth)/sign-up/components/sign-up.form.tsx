@@ -11,7 +11,7 @@ import { signIn } from "@/lib/firebase";
 import { useState } from "react";
 import { LoaderCircle} from "lucide-react";
 import toast from "react-hot-toast";
-const SignInForm = () => {
+const SignUpForm = () => {
   //Estado de carga
   const [isLoading,setisLoading] = useState<boolean>(false)
   //==============form==============
@@ -111,4 +111,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default SignUpForm;

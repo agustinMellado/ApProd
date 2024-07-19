@@ -1,7 +1,7 @@
 
 import Logo from "@/components/logo";
 import { Metadata } from "next";
-import SignInForm from "./components/sign-in.form";
+import SignUpForm from "./components/sign-up.form";
 const SignIn = () => {
     return (
         <div className="flex justify-center items-center md:h-[95vh] md:px-10 lg:px-26">
@@ -10,7 +10,7 @@ const SignIn = () => {
                 {/* Seccion formulario */}
                 <div className="pt-10 lg:p-8 flex items-center md:h-[70vh]">
                     <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[450px]">
-                        <SignInForm />
+                        <SignUpForm />
                     </div>
                 </div>
                 {/* Seccion imagen */}
