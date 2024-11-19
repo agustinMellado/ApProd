@@ -66,9 +66,9 @@ const SignUpForm = () => {
   return (
     <>
       <div className="text-center">
-        <h1 className="text-2xl font-semibold">Inicio Sesion</h1>
+        <h1 className="text-2xl font-semibold">Registro</h1>
         <p className="text-sm text-muted-foreground">
-          Ingresa tu Email y contraseña
+          Ingresa los siguientes datos para crear tu cuenta
         </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -113,32 +113,27 @@ const SignUpForm = () => {
             />
             <p className="form-error">{errors.password?.message}</p>
           </div>
-          <Link
-            href="/forgot-password"
-            className="underline text-muted-foreground underline-offset-4 hover:text-primary mb-6 text-sm text-end"
-          >
-            ¿Olvidaste tu contraseña?
-          </Link>
+          
 
-          {/*==============Ingresar==============*/}
+          {/*==============Crear cuenta==============*/}
           <Button
             type="submit" disabled={isLoading}>
             {isLoading && (
               <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Ingresar
+            Crear Cuenta
           </Button>
         </div>
       </form>
 
-      {/* ==============Registrarse============== */}
+      {/* ==============iniciar sesion============== */}
       <p className="text-center text-sm text-muted-foreground">
-        ¿No tenes cuenta? {""}
+        ¿Ya tenes cuenta? {""}
         <Link
-          href="/sign-up"
+          href="/"
           className="underline underline-offset-4 hover:text-primary"
         >
-          Registrar
+          Iniciar Sesion
         </Link>
       </p>
     </>
