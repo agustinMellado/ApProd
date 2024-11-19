@@ -9,15 +9,20 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "@/lib/firebase";
 import { useState } from "react";
-import { LoaderCircle} from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import toast from "react-hot-toast";
 const SignUpForm = () => {
   //Estado de carga
-  const [isLoading,setisLoading] = useState<boolean>(false)
+  const [isLoading, setisLoading] = useState<boolean>(false)
   //==============form==============
 
   //Definimos el esquema de validacion del formulario usando la biblioteca Zod
+
   const formSchema = z.object({
+    uid: z.string(),
+    name: z.string().min(3, {
+      message: 'El nombre debe tener al menos 3 caracteres'
+    }),
     email: z.string().email('El email no es valido.').min(1, {
       message: 'Este campo es obligatorio.'
     }),
@@ -28,23 +33,29 @@ const SignUpForm = () => {
   // Configuramos el formulario usando el hook useForm de React Hook Form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: '', password: '' }
+    defaultValues: {
+      uid: '',
+      name: '',
+      email: '',
+      password: ''
+    }
   })
   // Extraccion de datos
   const { register, handleSubmit, formState } = form
   const { errors } = formState
-   //==============Sign In==============
-   const onSubmit = async (user:z.infer<typeof formSchema>)=> {
-    setisLoading(true);
-    try {
-      const res=await signIn (user);
-      toast.success('Inicio de sesion Exitoso!', {duration:2500})
-    } catch (error) {
-      toast.error("Email o Contraseña incorrecta.", {duration:2500})
-    }finally{//espero la respuesta 
-      setisLoading(false)//saco la carga
-    }
-   }
+  //==============Sign In==============
+  const onSubmit = async (user: z.infer<typeof formSchema>) => {
+    console.log(user);
+    // setisLoading(true);
+    // try {
+    //   const res = await signIn(user);
+    //   toast.success('Inicio de sesion Exitoso!', { duration: 2500 })
+    // } catch (error) {
+    //   toast.error("Email o Contraseña incorrecta.", { duration: 2500 })
+    // } finally {//espero la respuesta 
+    //   setisLoading(false)//saco la carga
+    // }
+  }
   return (
     <>
       <div className="text-center">
@@ -54,14 +65,30 @@ const SignUpForm = () => {
         </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
+
+
         <div className="grid gap-2">
+
+          {/*==============name==============*/}
+          <div className="mb-3">
+            <Label htmlFor="name">Nombre</Label>
+            <Input
+              {...register("name")}
+              id="name"
+              placeholder="Ingrese su nombre"
+              type="text"
+              autoComplete="name"
+            />
+            <p className="form-error">{errors.name?.message}</p>
+          </div>
+
           {/*==============email==============*/}
           <div className="mb-3">
             <Label htmlFor="email">Email</Label>
             <Input
-            {...register("email")}
+              {...register("email")}
               id="email"
-              placeholder="email@example.com"
+              placeholder="Ingrese su email"
               type="email"
               autoComplete="email"
             />
@@ -71,7 +98,7 @@ const SignUpForm = () => {
           <div className="mb-3">
             <Label htmlFor="password">Contaseña</Label>
             <Input
-            {...register("password")}
+              {...register("password")}
               id="password"
               placeholder="Ingrese su contraseña"
               type="password"
@@ -87,12 +114,12 @@ const SignUpForm = () => {
           </Link>
 
           {/*==============Ingresar==============*/}
-          <Button 
-          type="submit" disabled={isLoading}>
-          {isLoading && (
-            <LoaderCircle className="mr-2 h-4 w-4 animate-spin"/>
-          )}
-          Ingresar
+          <Button
+            type="submit" disabled={isLoading}>
+            {isLoading && (
+              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Ingresar
           </Button>
         </div>
       </form>
