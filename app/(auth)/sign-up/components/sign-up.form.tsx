@@ -7,10 +7,11 @@ import Link from "next/link";
 import * as z from "zod";// importacion de toda la libreria.
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "@/lib/firebase";
+import { CreateUser, updateUser } from "@/lib/firebase";
 import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import toast from "react-hot-toast";
+import { getDisplayName } from "next/dist/shared/lib/utils";
 const SignUpForm = () => {
   //Estado de carga
   const [isLoading, setisLoading] = useState<boolean>(false)
@@ -45,16 +46,22 @@ const SignUpForm = () => {
   const { errors } = formState
   //==============Sign In==============
   const onSubmit = async (user: z.infer<typeof formSchema>) => {
-    console.log(user);
-    // setisLoading(true);
-    // try {
-    //   const res = await signIn(user);
-    //   toast.success('Inicio de sesion Exitoso!', { duration: 2500 })
-    // } catch (error) {
-    //   toast.error("Email o Contraseña incorrecta.", { duration: 2500 })
-    // } finally {//espero la respuesta 
-    //   setisLoading(false)//saco la carga
-    // }
+   
+    setisLoading(true);
+    try {
+
+      let res = await CreateUser(user);
+      await updateUser({ displayName: user.name });
+
+    } catch (error: any) {
+
+      toast.error(error.message, { duration: 2500 });
+
+    } finally {//espero la respuesta 
+
+      setisLoading(false);//saco la carga
+
+    }
   }
   return (
     <>
