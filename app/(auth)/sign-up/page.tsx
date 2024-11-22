@@ -2,7 +2,7 @@
 import Logo from "@/components/logo";
 import { Metadata } from "next";
 import SignUpForm from "./components/sign-up.form";
-const SignIn = () => {
+const SignUp = () => {
     return (
         <div className="flex justify-center items-center md:h-[95vh] md:px-10 lg:px-26">
             <div className="container h-[85vh] flex-col justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -29,4 +29,4 @@ const SignIn = () => {
     );
 }
 
-export default SignIn;
+export default SignUp;
