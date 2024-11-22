@@ -12,7 +12,7 @@ import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import { getDisplayName } from "next/dist/shared/lib/utils";
-import { User } from "@/app/interfaces/user.interface";
+import { User } from "@/interfaces/user.interface";
 const SignUpForm = () => {
   //Estado de carga
   const [isLoading, setisLoading] = useState<boolean>(false)
