@@ -7,11 +7,12 @@ import Link from "next/link";
 import * as z from "zod";// importacion de toda la libreria.
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateUser, updateUser } from "@/lib/firebase";
+import { CreateUser, setDocument, updateUser } from "@/lib/firebase";
 import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import { getDisplayName } from "next/dist/shared/lib/utils";
+import { User } from "@/app/interfaces/user.interface";
 const SignUpForm = () => {
   //Estado de carga
   const [isLoading, setisLoading] = useState<boolean>(false)
@@ -46,12 +47,16 @@ const SignUpForm = () => {
   const { errors } = formState
   //==============Sign In==============
   const onSubmit = async (user: z.infer<typeof formSchema>) => {
-   
+
     setisLoading(true);
     try {
 
       let res = await CreateUser(user);
       await updateUser({ displayName: user.name });
+
+      user.uid= res.user.uid;
+
+      await createUserInDb(user as User)
 
     } catch (error: any) {
 
@@ -62,7 +67,24 @@ const SignUpForm = () => {
       setisLoading(false);//saco la carga
 
     }
+
   }
+
+  //Crear usuario en la base de datos
+  const createUserInDb = async (user: User) => {
+    const path = `users/${user.uid}`;
+    setisLoading(true);
+    try {
+      delete user.password;
+      await setDocument(path, user)
+      toast(`Bienvenido ${user.name}`,{icon:'👏'})
+    } catch (error:any) {
+      toast.error(error.message, { duration: 2500 });
+    } finally {
+      setisLoading(false);//saco la carga
+    }
+  }
+
   return (
     <>
       <div className="text-center">
@@ -113,7 +135,7 @@ const SignUpForm = () => {
             />
             <p className="form-error">{errors.password?.message}</p>
           </div>
-          
+
 
           {/*==============Crear cuenta==============*/}
           <Button
