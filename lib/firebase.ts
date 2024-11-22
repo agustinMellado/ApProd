@@ -46,6 +46,8 @@ export const updateUser= (user: {
 
 
 //Database functions
+
+//Set a document in a collection 
 export const setDocument= (path:string, data:any)=>{
   data.createdAt=serverTimestamp();
   return setDoc(doc(db,path),data);
