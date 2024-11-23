@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import {initializeApp,} from "firebase/app";
 import{createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile} from "firebase/auth";
-import {doc,getFirestore,serverTimestamp,setDoc,} from "firebase/firestore";
+import {doc,getDoc,getFirestore,serverTimestamp,setDoc,} from "firebase/firestore";
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -46,6 +46,13 @@ export const updateUser= (user: {
 
 
 //Database functions
+
+//Get a document in a collection 
+export const getDocument= async (path:string)=>{
+
+  return (await getDoc(doc(db,path))).data();
+}
+
 
 //Set a document in a collection 
 export const setDocument= (path:string, data:any)=>{
